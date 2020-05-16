@@ -878,6 +878,9 @@ if __name__ == '__main__':
         cur.close()
         con.close()
         print "  db query finished after %.3f sec" % (time.time() - start_time)
+        #Save the raw data to check codes etc
+        X.to_hdf(os.path.join(outPath, dynamic_hd5_filt_filename), 'raw_chartevents')
+        
         X = save_numerics(
             data, X, I, var_map, var_ranges, outPath, dynamic_filename, columns_filename, subjects_filename,
             times_filename, dynamic_hd5_filename, group_by_level2=args['group_by_level2'], apply_var_limit=args['var_limits'],
