@@ -104,4 +104,6 @@ venv.bak/
 .mypy_cache/
 
 
-*.ipynb_checkpoints*
+*.ipynb_checkpoints
+.DS_Store
+resources/.DS_Store*
