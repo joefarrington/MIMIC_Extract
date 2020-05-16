@@ -29,7 +29,7 @@ clone_mimic_code_repo: ${MIMIC_CODE_DIR}/buildmimic/postgres/Makefile
 ${MIMIC_CODE_DIR}/buildmimic/postgres/Makefile: setup_user_env.sh
 	{ \
 	source ./setup_user_env.sh; \
-	[ -e $@ ] || git clone https://github.com/MIT-LCP/mimic-code/ ${MIMIC_CODE_DIR}/; \
+	[ -e $@ ] || git clone https://github.com/joefarrington/mimic-code ${MIMIC_CODE_DIR}/; \
 	}
 
 #=== Build concepts
