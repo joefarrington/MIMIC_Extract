@@ -176,6 +176,7 @@ def get_variable_mapping(mimic_mapping_filename):
     var_map = DataFrame.from_csv(mimic_mapping_filename, index_col=None).fillna('').astype(str)
     var_map = var_map.ix[(var_map['LEVEL2'] != '') & (var_map.COUNT>0)]
     var_map = var_map.ix[(var_map.STATUS == 'ready')]
+    var_map = var_map.ix[(var_map.M_E_APPENDIXB == 1)]
     var_map.ITEMID = var_map.ITEMID.astype(int)
 
     return var_map
