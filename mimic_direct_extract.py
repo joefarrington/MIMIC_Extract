@@ -832,8 +832,8 @@ if __name__ == '__main__':
         chartitems_to_keep = var_map.loc[var_map['LINKSTO'] == 'chartevents'].ITEMID
         chartitems_to_keep = set([ str(i) for i in chartitems_to_keep ])
 
-        labitems_to_keep = var_map.loc[var_map['LINKSTO'] == 'labevents'].ITEMID
-        labitems_to_keep = set([ str(i) for i in labitems_to_keep ])
+        # labitems_to_keep = var_map.loc[var_map['LINKSTO'] == 'labevents'].ITEMID
+        # labitems_to_keep = set([ str(i) for i in labitems_to_keep ])
 
         con = psycopg2.connect(**query_args)
         cur = con.cursor()
@@ -850,18 +850,18 @@ if __name__ == '__main__':
           and c.charttime between intime and outtime
           and c.error is distinct from 1
           and c.valuenum is not null
-
-        UNION ALL
-
-        select distinct i.subject_id, i.hadm_id, i.icustay_id, l.charttime, l.itemid, l.value, valueuom
-        FROM icustay_detail i
-        INNER JOIN labevents l ON i.hadm_id = l.hadm_id
-        where i.icustay_id in ({icuids})
-          and l.itemid in ({lbitem})
-          and l.charttime between (intime - interval '6' hour) and outtime
-          and l.valuenum > 0 -- lab values cannot be 0 and cannot be negative
         ;
-        """.format(icuids=','.join(icuids_to_keep), chitem=','.join(chartitems_to_keep), lbitem=','.join(labitems_to_keep))
+        """.format(icuids=','.join(icuids_to_keep), chitem=','.join(chartitems_to_keep)) #, lbitem=','.join(labitems_to_keep))
+        # UNION ALL
+
+        # select distinct i.subject_id, i.hadm_id, i.icustay_id, l.charttime, l.itemid, l.value, valueuom
+        # FROM icustay_detail i
+        # INNER JOIN labevents l ON i.hadm_id = l.hadm_id
+        # where i.icustay_id in ({icuids})
+        #  and l.itemid in ({lbitem})
+        #  and l.charttime between (intime - interval '6' hour) and outtime
+        #  and l.valuenum > 0 -- lab values cannot be 0 and cannot be negative
+        
         X = pd.read_sql_query(query, con)
 
         itemids = set(X.itemid.astype(str))
